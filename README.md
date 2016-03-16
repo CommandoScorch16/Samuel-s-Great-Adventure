@@ -1,2 +1,2 @@
 # Samuels-Great-Adventure
-##A web-based text adventure implemented using HTML and JavaScript
+##A web-based text adventure implemented using HTML, CSS, and JavaScript
