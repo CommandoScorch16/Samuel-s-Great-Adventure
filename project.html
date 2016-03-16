@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<style>
+body {
+background-image: url("woodBackGround.jpg");
+background-repeat: repeat-x;
+}
+
+h1 {
+color: orange;
+text-align: center;
+}
+
+div {
+   width: 500px;
+   height: 350px;
+   padding: 10px;
+   border: 5px solid gray;
+   margin: 100px 150px 100px 370px;
+   background-color: black;
+   color: orange;
+   text-align: left;
+   font-size: 15px; 
+}
+
+input{
+  
+  width:500px;
+  height:30px;
+  display:block;
+  background: black;
+  border: none;
+  right: 0;
+  top: 10;
+  color: orange;
+ }
+ 
+ 
+</style>
+<html>
+<body>
+<h1>
+Samuel's Great Adventure
+<div id="TEXT">
+	<text id="textBox">Welcome to Samuel's Great Adventure!<br>Type 'Start' to begin...</text>
+	<input id="textField" type="text" onclick="value=''" onkeydown="if (event.keyCode == 13)
+	                                  conjunction()" value="Enter Text Here"><br>
+
+	<script>
+        /*Take the user's input and do something with it*/
+        function conjunction() {
+	     document.getElementById("textField").value = "";
+             var junk = document.getElementById("textBox").innerHTML;
+	     document.getElementById("textBox").innerHTML = junk + "<br>howdypartner";
+             openCardFile();
+	}
+
+	function stockInventory(type){
+            if (type === "General Store"){
+	    }
+	    else if (type === "Undertaker"){
+	    }
+	    else if (type === "Saloon"){
+	    }
+	    else{
+	    /*building does not sell things*/
+	    return null
+	    }
+            	    
+	}
+
+       
+        function townCard(parameters) {
+	}
+
+     	function buildingCard(parameters) {
+	    /*ex. Texas, New Mexico Territory*/
+            this.rootLocation = parameters["rootLocation"];
+	    this.rootLocation = parameters["realLocation"];
+	    this.buildingType = parameters["buildingType"];
+            this.name = parameters["name"];
+	    this.inventory = stockInventory(this.buildingType);
+	}
+
+        function outsideCard(parameters) {
+	    this.rootLocation = parameters["rootLocation"];
+	    this.realLocation = parameters["realLocation"];
+	    this.weather = parameters["weather"];
+	    this.terrain = parameters["terrain"];
+	}
+
+        function cardFactory() {}
+	cardFactory.prototype.createCard = function createGameGard(parameters) {
+
+
+	    var cardType = null;
+
+	    if (parameters["cardType"] === "Town") {
+	        cardType = townCard;
+	    }
+            else if (parameters["cardType"] === "Building") {
+	        cardType = buildingCard;
+	    }
+            else if (parameters["cardType"] === "Outside") {
+	        cardType = outsideCard;
+	    }
+	    else {
+	        return "Bad input: " + parameters["cardType"];
+	    }
+
+            return new cardType(parameters);
+        /*cardFactory done*/ 
+	}
+
+        function openCardFile() {
+        	
+        var fileName = "c:/Users/Samuel/Documents/hcc/junk.txt";
+        var textFile = new File(fileName);
+        textFile.open("r");
+	while (!textFile.eof) {
+            alert(textFile.readln());
+	}
+	textFile.close();
+	}
+        
+     
+        </script>
+</div>
+</h1>
+</body>
+</html>
