@@ -86,10 +86,11 @@ Samuel's Great Adventure
 	    this.realLocation = parameters["realLocation"];
 	    this.weather = parameters["weather"];
 	    this.terrain = parameters["terrain"];
+	    this.
 	}
 
         function cardFactory() {}
-	cardFactory.prototype.createCard = function createGameGard(parameters) {
+	cardFactory.prototype.createCard = function createGameCard(parameters) {
 
 
 	    var cardType = null;
@@ -122,6 +123,19 @@ Samuel's Great Adventure
 	textFile.close();
 	}
         
+
+	function dialogue(){
+        
+		arrOfCards = [ {"1" : createGameCard( {cardType : "Outside", rootLocation : "New Mexico Territory", realLocation : "Outside", weather : "Rain", terrain : "Desert"  }  ) }, 
+			       {"2" : }, 
+			       {"3" : }, 
+			       {"4" : }, 
+			       {"5" : }, 
+			       {"6" : }  
+		             ]; 
+		
+
+	}
      
         </script>
 </div>
