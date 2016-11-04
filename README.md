@@ -1,2 +1,2 @@
 # Samuel's Great Adventure
-##A web-based text adventure implemented using HTML, CSS, and JavaScript
+##This is a web-based text adventure I created by teaching myself how to incorporate HTML, CSS, and JavaScript together. The hardest part was designing a data structure to contain the story lines, along with all of their choices
