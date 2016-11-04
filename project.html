@@ -43,17 +43,75 @@ Samuel's Great Adventure
 <div id="TEXT">
 	<text id="textBox">Welcome to Samuel's Great Adventure!<br>Type 'Start' to begin...</text>
 	<input id="textField" type="text" onclick="value=''" onkeydown="if (event.keyCode == 13)
-	                                  conjunction()" value="Enter Text Here"><br>
+	                                  conjunction(value)" value="Enter Text Here"><br>
 
 	<script>
         /*Take the user's input and do something with it*/
-        function conjunction() {
-	     document.getElementById("textField").value = "";
-             var junk = document.getElementById("textBox").innerHTML;
-	     document.getElementById("textBox").innerHTML = junk + "<br>howdypartner";
-             openCardFile();
+	var currentCard = {};
+        var started = 0;
+
+        function displayText(card) {
+		var textOut = card[Object.keys(card)[0]] + "<br/>";
+	        for (var key in card["choices"]) {
+		    if (card["choices"].hasOwnProperty(key)){
+			    textOut += ( "<br/>" + key + ". " + card["choices"][Object.keys(card["choices"])[key-1]][0] );
+		    }
+            }
+	    document.getElementById("textBox").innerHTML = textOut;
 	}
 
+
+
+        function conjunction(userInput) {
+
+                //userInput = document.getElementById("textField").innerHTML;
+		var listOfCards = [ {2 : "You try and get yourself off of your feet, but you fall back down. You try again to get up, slower this time, and succeed", "choices" : {1 : ["Look around", 3] , 2 : ["Check inventory", 4] , 3 : ["Leave", 5]}},
+			        {3 : "You try to scan your surroundings, but it is almost pitch black, as the rain clouds are covering the moon.", "choices" : {1 : ["Check inventory", 4] , 2 : ["Leave", 5]}},
+				{4 : "Patting down your clothes, you realize that your money belt and your gun are both missing.", "choices" : {1 : ["Look around", 3] , 2 : ["Leave", 5]}},
+				{5 : "You start to leave when your boot hits a rock and you trip. Since you cannot see, you figure that you need some kind of torch", "choices" : {1 : ["Gather wood", 6] , 2 : ["Make a rain cover", 7]}},
+				{6 : "After searching around, you find a dead tree. Pulling hard on a lower limb, you break it off", "choices" : {1 : ["Find flammable material", 8]}},
+				{7 : "You think it best that you make some sort of cover, so the rain will not put out the fire. You remove your shirt, and hold it above your head", "choices" : {1 : ["Gather wood", 6]}},
+				{8 : "Remembering that you have a small flask of whiskey hidden in your left boot, you pull it out and douse your shirt with it.", "choices" : {1 : ["Start fire", 9]}},
+				{9 : "You pull out a bullet from your right boot that you always keep hidden in case you ever get left for dead in the middle of nowhere. You take a great bite into the bullet and pry it from the casing. Taking your small boot knife, you then pry out the primer from the casing. Now, you look around for something to hit the primer with.", "choices" : {1 : ["Knife", 10] , 2 : ["Whiskey bottle", 11] }},
+				{10 : "You hit the primer with your knife, but nothing happens. You look for something else to try.",  "choices" : {1 : ["Whiskey bottle", 11]}},
+				{11 : "Picking up the empty whiskey bottle, you hit the primer as hard as you can. It goes off, igniting the gun powder and the whiskey. You now have a torch that you can see with.", "choices" : {1 : ["Start walking", 13], 2 : ["Drink whiskey", 12]}},
+				{12 : "You take a swig from your whiskey bottle, but it is bone dry, as you emptied it onto the torch.", "choices" : {1 : ["Start walking", 13]}},
+				{13 : "Since you can now see your hand in front of your face, you begin to walk in the direction you believe is north. Thankfully, the rain has stopped, and you can see the moon piercing through the clouds. After about an hour, you come to what looks like an abandoned cabin.", "choices" : {1 : ["Keep walking", 14] , 2 : ["Enter cabin", 15]}},
+
+				{14 : "Leaving the cabin, you keep heading towards the North (you think)."},
+
+				{15 : "Approaching the cabin, you knock on the door and wait for a minute, but nobody answers.", "choices" : {1 : ["Leave", 14] , 2 : ["Open the door", 16]}},
+				{16 : "Upon finding the door to be unlocked, you proceed inside. You peer in and see a man sitting at his desk, slumped over. You approach him and find that he has been scalped, and his heart has been ripped out and is now pinned to the table with a bowie knife.", "choices" : {1 : ["Search the cabin", 17] , 2 : ["Search the body", 20] , 3 : ["Leave", 14]}},
+				{17 : "Looking around, you open the desk drawer and find a model 1849 Colt pocket revolver, and it appears to be loaded.", "choices" : {1 : ["Take it", 18] , 2 : ["Leave it", 19]}},
+				{18 : "You stick the revolver in your pants, figuring that you might encounter some bad characters in the future.", "choices" : {3 : ["Leave", 14]}},
+				{19 : "Thinking to yourself that the world is only full of basically nice, non-violent people, you leave the revolver.", "choices" : {3 : ["Leave", 14]}},
+				{20 : "Searching the dead body, you realize that his heart must have still been beating when it was cut out. Whomever did this must have done so in extreme anger, as they did not take any of his valuables.", "choices" : {1: ["Search the cabin", 17] , 2 : ["Leave", 14]}} ];
+
+
+
+             
+	     document.getElementById("textField").value = "";
+             var junk = document.getElementById("textBox").innerHTML;
+	     
+             //dialogue(document.getElementById("textBox").innerHTML);      
+             if (started == 0){
+                                
+		        currentCard = {1 : "You slowly wake up from a daze as you feel drops of water falling on your face", "choices" : {1 : ["Get up", 2]}}; 
+             }
+	     
+	     else {
+		        document.getElementById("textBox").innerHTML = userInput; 
+	                var nextCard = currentCard["choices"][userInput][1];
+		        document.getElementById("textBox").innerHTML = nextCard;	
+	                currentCard = listOfCards[nextCard-2];		
+	     }
+             
+             displayText(currentCard);
+
+	     //document.getElementById("textField").innerHTML =  currentCard[1];
+             started = 1;
+	}
+ 
 	function stockInventory(type){
             if (type === "General Store"){
 	    }
@@ -81,12 +139,13 @@ Samuel's Great Adventure
 	    this.inventory = stockInventory(this.buildingType);
 	}
 
-        function outsideCard(parameters) {
-	    this.rootLocation = parameters["rootLocation"];
-	    this.realLocation = parameters["realLocation"];
+        function newMexico(parameters) {
+	    this.rootLocation = "New Mexico Territory";
+	    this.realLocation = "Outside";
 	    this.weather = parameters["weather"];
 	    this.terrain = parameters["terrain"];
-	    this.
+	    this.dialogue = parameters["dialogue"];
+	    this.cards = parameters["cards"];
 	}
 
         function cardFactory() {}
@@ -125,15 +184,20 @@ Samuel's Great Adventure
         
 
 	function dialogue(){
-        
-		arrOfCards = [ {"1" : createGameCard( {cardType : "Outside", rootLocation : "New Mexico Territory", realLocation : "Outside", weather : "Rain", terrain : "Desert"  }  ) }, 
-			       {"2" : }, 
-			       {"3" : }, 
-			       {"4" : }, 
-			       {"5" : }, 
-			       {"6" : }  
+         
+		 
+
+
+		arrOfCards = [ {"1" : createGameCard(  {cardType : "Outside", rootLocation : "New Mexico Territory", realLocation : "Outside", weather : "Rain", terrain : "Desert" }  ) }, 
+			       {"2" : "2"}, 
+			       {"3" : "3"}, 
+			       {"4" : "4"}, 
+			       {"5" : "5"}, 
+			       {"6" : "6"}  
 		             ]; 
 		
+                
+	        rootCard = newMexico( {dialogue : "You slowly wake up from a daze as you feel drops of water falling on your face", terrain : "Desert", weather : "Rain" } );
 
 	}
      
